@@ -1,90 +1,55 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  ack
- *  adm
- *  afh
- *  alz
- *  bew
- *  cj
- *  pk
- */
-package baritone.pathing.movement;
+import baritone.api.BaritoneAPI;
+import baritone.api.pathing.goals.GoalBlock;
+import net.minecraft.util.BlockPos;
 
-import baritone.a;
-import baritone.api.IBaritone;
-import baritone.b;
-import baritone.bf;
-import baritone.bj;
+public class EndermanPath {
+    public static void followPath() {
+        // Define waypoints
+        BlockPos[] waypoints = {
+            new BlockPos(-556, 17, -260), // Example X, Y, Z
+            new BlockPos(-548, 18, -262),
+            new BlockPos(-542, 21, -267),
+            new BlockPos(-531, 22, -272),
+            new BlockPos(-542, 21, -267),
+            new BlockPos(-531, 22, -272),
+            new BlockPos(-528, 18, -282),
+            new BlockPos(-523, 16, -295),
+            new BlockPos(-520, 14, -307),
+            new BlockPos(-525, 11, -321),
+            new BlockPos(-534, 8, -325),
+            new BlockPos(-546, 5, -318),
+            new BlockPos(-557, 6, -314),
+            new BlockPos(-563, 6, -308),
+            new BlockPos(-560, 9, -295),
+            new BlockPos(-566, 15, -282),
+            new BlockPos(-554, 11, -271),
+            new BlockPos(-546, 8, -270),
+            new BlockPos(-538, 6, -274),
+            new BlockPos(-531, 5, -278),
+            new BlockPos(-529, 6, -269),
+            new BlockPos(-545, 1, -252),
+            new BlockPos(-567, 4, -233),
+            new BlockPos(-579, 7, -228),
+            new BlockPos(-595, 19, -214),
+            new BlockPos(-594, 23, -204),
+            new BlockPos(-588, 28, -198),
+            new BlockPos(-581, 32, -200),
+            new BlockPos(-566, 40, -207),
+            new BlockPos(-566, 38, -214),
+            new BlockPos(-582, 35, -218),
+            new BlockPos(-584, 31, -227),
+            new BlockPos(-573, 27, -229),
+            new BlockPos(-563, 20, -242)  // Loop back
+        };
 
-/*
- * Duplicate member names - consider using --renamedupmembers true
- */
-@b
-public class CalculationContext {
-    public final boolean a;
-    public final IBaritone a;
-    public final adm a;
-    public final bj a;
-    public final boolean b;
-    public final boolean c;
-    public final boolean d;
-    public final boolean e;
-    public final boolean f;
-    public final boolean g;
-    public final boolean h;
-    private boolean i;
-    public final int a;
-    public final double a;
-    private double d;
-    public final double b;
-    public final double c;
-    public final bf a = new bf();
-
-    public CalculationContext(IBaritone iBaritone) {
-        this(iBaritone, false);
-    }
-
-    public CalculationContext(IBaritone iBaritone, boolean bl) {
-        this.a = bl;
-        this.a = iBaritone;
-        bew bew2 = iBaritone.getPlayerContext().player();
-        this.a = iBaritone.getPlayerContext().world();
-        this.a = new bj(iBaritone.getPlayerContext(), bl);
-        this.b = (Boolean)baritone.a.a().allowSprint.value != false && bew2.cl().a() > 6;
-        this.c = (Boolean)baritone.a.a().allowParkour.value;
-        this.d = (Boolean)baritone.a.a().allowJumpAt256.value;
-        this.e = (Boolean)baritone.a.a().allowParkourAscend.value;
-        this.f = (Boolean)baritone.a.a().assumeWalkOnWater.value;
-        this.g = (Boolean)baritone.a.a().allowDiagonalDescend.value;
-        this.h = (Boolean)baritone.a.a().allowDiagonalAscend.value;
-        this.i = (Boolean)baritone.a.a().allowDownward.value;
-        this.a = (Integer)baritone.a.a().maxFallHeightNoWater.value;
-        int n = ack.b((pk)bew2);
-        if (n > 3) {
-            n = 3;
+        for (BlockPos point : waypoints) {
+            // Move to each point
+            BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(new GoalBlock(point));
+            
+            // Wait until the bot reaches the destination
+            while (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing()) {
+                try { Thread.sleep(1000); } catch (InterruptedException e) {}
+            }
         }
-        float f = (float)n / 3.0f;
-        this.a = 9.09090909090909 * (double)(1.0f - f) + 4.63284688441047 * (double)f;
-        this.d = (Double)baritone.a.a().backtrackCostFavoringCoefficient.value;
-        this.b = (Double)baritone.a.a().jumpPenalty.value;
-        this.c = (Double)baritone.a.a().walkOnWaterOnePenalty.value;
-    }
-
-    public final alz a(int n, int n2, int n3) {
-        return this.a.a(n, n2, n3);
-    }
-
-    public final boolean a(int n, int n2) {
-        return this.a.b(n, n2);
-    }
-
-    public final alz a(cj cj2) {
-        return this.a(cj2.n(), cj2.o(), cj2.p());
-    }
-
-    public final afh a(int n, int n2, int n3) {
-        return this.a(n, n2, n3).c();
     }
 }
