@@ -1,0 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package baritone.api.utils.input;
+
+public enum ClickType {
+    PICKUP,
+    QUICK_MOVE,
+    SWAP,
+    CLONE,
+    THROW,
+    QUICK_CRAFT,
+    PICKUP_ALL;
+
+}
