@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class HumanLikeCamera {
     private static final Minecraft mc = Minecraft.getMinecraft();
-    private static final float ROTATION_SPEED = 5.0f; // Degrees per tick (adjust as needed)
+    private static final float ROTATION_SPEED = 5.0f;
     private static final Random random = new Random();
 
     public static void smoothlyLookAt(Vec3 target) {
@@ -19,16 +19,12 @@ public class HumanLikeCamera {
 
     private static float smoothRotation(float current, float target, float speed) {
         float diff = target - current;
-
-        // Ensure shortest rotation path
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
 
-        // Add small random variance for natural feel
         float randomness = (random.nextFloat() - 0.5f) * 2.0f;
         speed += randomness;
 
-        // Apply smoothing
         if (diff > speed) return current + speed;
         if (diff < -speed) return current - speed;
         return target;
